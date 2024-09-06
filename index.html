@@ -1,0 +1,408 @@
+<!--
+    Fajardo, Diane Claire M.
+    BET-COET-3A
+    10-30-23
+    CPET12L
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple Biodata</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Labrada:wght@600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="front">
+        <h1>Simple Biodata</h1>
+        <div class="center-button">
+            <button id="OpenDialogBtn">Fill Up</button>
+        </div>
+        <div class="person">
+            <img src="https://clipart-library.com/images/8i6oer5KT.png">
+        </div>
+    </div>
+    
+    <!-- The modal dialog -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span id="CloseDialogBtn" class="close">&times;</span>
+            <p>Fill-up the form. Don't type special characters.</p>
+            <label>Name:</label>
+            <input id="Namebox" type="text" placeholder="Type here">
+            <br><br>
+            <label>Mobile No.:</label>
+            <input id="Mobbox" type="text" placeholder="09XX XXX XXXX">
+            <br><br>
+            <label>Email:</label>
+            <input id="Emailbox" type="text" placeholder="example@gmail.com">
+            <br><br>
+            <label>Gender:</label>
+                <select id="Genbox">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            <br><br>
+            <label>Birthday:</label>
+            <input id="Birthbox" type="number" placeholder="DDMMYYYY">
+            <br><br>
+            <label>Birth Place:</label>
+            <input id="Placebox" type="text" placeholder="Type here">
+            <br><br>
+            <label>Height:</label>
+            <input id="Heightbox" type="text" placeholder="cm">
+            <br><br>
+            <label>Weight:</label>
+            <input id="Weightbox" type="text" placeholder="kg.">
+            <br><br>
+            <label>Religion:</label>
+            <input id="Relbox" type="text" placeholder="Type here">
+            <br><br>
+            <label>Civil Status:</label> 
+                <select id="Civilbox">
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                    <option value="Separated">Separated</option>
+                    <option value="Widowed">Widowed</option>
+                </select>
+            <br><br>
+            <label>Nationality:</label>
+            <input id="Natbox" type="text" placeholder="Type here">
+        <hr>
+
+        <div class="button-container">
+            <button id="Insbtn">INSERT</button>
+            <button id="Selbtn">SEARCH</button>
+            <button id="Upbtn">UPDATE</button>
+            <button id="Delbtn">DELETE</button>
+        </div>  
+    </div>
+
+<script>
+   
+    // Function to open the dialog
+    document.getElementById("OpenDialogBtn").onclick = function() {
+    document.getElementById("myModal").style.display = "block";
+    }
+
+    // Function to close the dialog
+    document.getElementById("CloseDialogBtn").onclick = function() {
+    document.getElementById("myModal").style.display = "none";
+    }
+
+    // Close the dialog when the user clicks outside the modal content
+    window.onclick = function(event) {
+        if (event.target == document.getElementById("myModal")) {
+            document.getElementById("myModal").style.display = "none";
+        }
+    }
+       
+</script>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyDrSz2sWsqKxtu1HIXyY7vwh_Rx63aNUqQ",
+      authDomain: "biodata-c87fb.firebaseapp.com",
+      databaseURL: "https://biodata-c87fb-default-rtdb.firebaseio.com",
+      projectId: "biodata-c87fb",
+      storageBucket: "biodata-c87fb.appspot.com",
+      messagingSenderId: "68906271960",
+      appId: "1:68906271960:web:767b594c113abd0cc983ad",
+      measurementId: "G-BR8BL8FQWF"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    import{ getDatabase,ref, get, set, child, update, remove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+    const db = getDatabase();
+    var Namebox1 = document.getElementById("Namebox");
+    var Mobbox1 = document.getElementById("Mobbox");
+    var Emailbox1 = document.getElementById("Emailbox");
+    var Birthbox1 = document.getElementById("Birthbox"); 
+    var Placebox1 = document.getElementById("Placebox");
+    var Genbox1 = document.getElementById("Genbox"); 
+    var Heightbox1 = document.getElementById("Heightbox");
+    var Weightbox1 = document.getElementById("Weightbox");
+    var Relbox1 = document.getElementById("Relbox");
+    var Civilbox1 = document.getElementById("Civilbox");
+    var Natbox1 = document.getElementById("Natbox");
+    var Insbtn1 = document.getElementById("Insbtn");
+    var Selbtn1 = document.getElementById("Selbtn");
+    var Upbtn1 = document.getElementById("Upbtn");
+    var Delbtn1 = document.getElementById("Delbtn");
+        
+    function InsertData() {
+        set(ref(db, "Biodata/" + Namebox1.value), {
+            Name: Namebox1.value,
+            MobileNo: Mobbox1.value,
+            Email: Emailbox1.value,
+            Bithday: Birthbox1.value,
+            BirthPlace: Placebox1.value,
+            Gender: Genbox1.value,
+            Height: Heightbox1.value,
+            Weight: Weightbox1.value,
+            Religion: Relbox1.value,
+            CivilStatus: Civilbox1.value,
+            Nationality: Natbox1.value,
+        })
+        .then(()=>{
+            alert("Data Stored Successfully");
+        })
+        .catch((error)=>{
+            alert("Unsuccessful, error:"  + error);
+        });
+    }
+
+        function SelectData() {
+            const dbref = ref (db);
+
+            get(child(dbref, "Biodata/" + Namebox1.value)).then((snapshot)=>{
+                if(snapshot.exists()){
+                    Namebox1.value=snapshot.val().Name;
+                    Mobbox1.value=snapshot.val().MobileNo;
+                    Emailbox1.value=snapshot.val().Email;
+                    Birthbox1.value=snapshot.val().Birthday;
+                    Genbox1.value=snapshot.val().Gender;
+                    Placebox1.value=snapshot.val().BirthPlace;
+                    Heightbox1.value=snapshot.val().Height;
+                    Weightbox1.value=snapshot.val().Weight;
+                    Relbox1.value=snapshot.val().Religion;
+                    Civilbox1.value=snapshot.val().CivilStatus;
+                    Natbox1.value=snapshot.val().Nationality;
+                    
+                } else {
+                    alert("No Data Found");
+                }
+            })
+            .catch((error)=>{
+                alert("Unsuccessful, error:"  + error);
+            });
+        }
+
+        function UpdateData() {
+            set(ref(db, "Biodata/" + Namebox1.value), {
+                Name: Namebox1.value,
+                MobileNo: Mobbox1.value,
+                Email: Emailbox1.value,
+                Bithday: Birthbox1.value,
+                BirthPlace: Placebox1.value,
+                Gender: Genbox1.value,
+                Height: Heightbox1.value,
+                Weight: Weightbox1.value,
+                Religion: Relbox1.value,
+                CivilStatus: Civilbox1.value,
+                Nationality: Natbox1.value,
+            })
+            .then(()=>{
+                alert("Data Updated Successfully");
+            })
+            .catch((error)=>{
+                alert("Unsuccessful, error:"  + error);
+            });
+        }
+
+        function DeleteData() {
+            remove(ref(db, "Biodata/" + Namebox1.value), {
+                
+            })
+            .then(()=>{
+                alert("Data Removed Successfully");
+            })
+            .catch((error)=>{
+                alert("Unsuccessful, error:"  + error);
+            });
+        }
+
+        Insbtn1.addEventListener('click', InsertData);
+        Selbtn1.addEventListener('click', SelectData);
+        Upbtn1.addEventListener('click', UpdateData);
+        Delbtn1.addEventListener('click', DeleteData);
+
+</script>
+
+    <style>
+        body{
+            background-image: url(https://wallpapercrafter.com/th8001/518516-abstract-wallpaper-design-graphic-light-generated.jpg);
+            background-size: cover;
+            padding-bottom: 20px;
+        }
+
+        h1{ 
+            text-align: left; 
+            color: black;   
+            margin: 250px 0px 0px 250px;
+            font-size: 64px;
+            font-family: 'Labrada', serif;
+        }
+
+        .front {
+            display: flex;
+        }
+
+        .person {
+            margin: 100px 100px;
+        }
+
+        label{
+            margin-left: 30px;
+        }
+        
+        button{
+            border-radius: 15px; 
+            background-color: rgb(252, 251, 250);
+            color:black;
+            cursor: pointer;
+            margin-left: 10px;
+            margin-top: 25px;
+            position: relative;
+            top: 25%;
+            left: 25%;
+            
+        }
+
+        button:hover{
+            background-color: rgb(11, 7, 138);
+            color: rgb(254, 254, 254);
+        }
+
+        input{
+            border-radius: 10px; 
+            border: 10px;
+            background-color: rgb(252, 252, 252);
+            color:rgb(0, 0, 0);
+            transition-duration: 0.4s;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        input:hover{
+            background-color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+        }
+
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%; 
+        }
+
+        .modal-content {
+            background-color: #5f9ff8;
+            color: rgb(9, 9, 9);
+            margin: auto;
+            padding: 10px 10px;
+            border-radius: 10px;
+            width: 27%;
+            margin-top: 30px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        .close {
+            color: #d9d7d7;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 100px;
+        }
+
+        #OpenDialogBtn {
+            padding: 10px;
+            background-color: aliceblue;
+            margin-top: 110px;
+            margin-left: 30px;
+        }
+
+        #OpenDialogBtn:hover {
+            background-color: rgb(60, 100, 210);
+        }
+
+        .button-container {
+            border-radius: 10px;
+            background-color: #5f9ff8;        
+        }
+
+        .button-container button {
+            text-align: center;
+            margin-left: 0px;
+            margin-right:20px;
+            left: 30px;
+            top: -10px;
+        }
+
+        select {
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        #Namebox {
+            margin-left: 70px;
+        }
+
+        #Mobbox {
+            margin-left: 35px;
+        }
+        
+        #Emailbox {
+            margin-left: 70px;
+        }
+        
+        #Genbox {
+            margin-left: 62px;
+        }
+        
+        #Birthbox {
+            margin-left: 52px;
+        }
+
+        #Placebox {
+            margin-left: 35px;
+        }
+        
+        #Heightbox {
+            margin-left: 62px;
+        }
+        
+        #Weightbox {
+            margin-left: 62px;
+        }
+
+        #Relbox {
+            margin-left: 52px;
+        }
+        
+        #Civilbox {
+            margin-left: 33px;
+        }
+        
+        #Natbox {
+            margin-left: 35px;
+        }
+        
+        
+        
+        
+    </style>
+    
+</body>
+</html>
